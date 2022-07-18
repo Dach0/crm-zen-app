@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('resource_attachments', function (Blueprint $table) {
+        Schema::create('resource_items', function (Blueprint $table) {
             $table->id();
-            $table->string('filename');
-            $table->string('path');
+            $table->string('title');
+            $table->foreignId('resource_item_type_id')->references('id')->on('resource_item_types');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('resource_attachments');
+        Schema::dropIfExists('resource_items');
     }
 };

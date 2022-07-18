@@ -11,6 +11,11 @@ class ResourceItem extends Model
 {
     use HasFactory;
 
+    public function resourceAttachment()
+    {
+        return $this->hasOne(ResourceAttachment::class);
+    }
+
     /**
      * Create a new factory instance for the model.
      *
