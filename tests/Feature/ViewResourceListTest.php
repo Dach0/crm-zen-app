@@ -35,6 +35,7 @@ class ViewResourceListTest extends TestCase
     /** @test */
     public function visitor_can_view_a_resource_listing()
     {
+
         $resourcePdf = ResourceItem::factory()
             ->has(ResourceAttachment::factory([
                 'filename' => 'Some name',
@@ -44,6 +45,15 @@ class ViewResourceListTest extends TestCase
                 'title' => 'Some resource title',
                 'resource_item_type_id' => ResourceItemType::firstWhere('type', 'PDF')->id
             ]);
+
+        $this->assertDatabaseHas('resource_items', [
+            'title' => 'Some resource title',
+        ]);
+
+        $view = $this->get('/');
+
+        $view->assertStatus(200);
+        $view->assertSee('Some resource title');
 
 
     }

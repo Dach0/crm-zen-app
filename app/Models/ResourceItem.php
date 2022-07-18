@@ -11,6 +11,8 @@ class ResourceItem extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     public function resourceAttachment()
     {
         return $this->hasOne(ResourceAttachment::class);
