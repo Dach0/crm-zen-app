@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\ResourceAttachment;
 use App\Models\ResourceItem;
+use App\Models\ResourceItemType;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -11,6 +12,13 @@ use Tests\TestCase;
 class ViewResourceListTest extends TestCase
 {
     use DatabaseMigrations;
+
+    public function setUp() :void
+    {
+        parent::setUp();
+
+        $this->seed();
+    }
 
     /**
      * A basic test example.
@@ -34,7 +42,7 @@ class ViewResourceListTest extends TestCase
             ]))
             ->create([
                 'title' => 'Some resource title',
-                'resource_item_type_id' => ResourceItemType::firstWhere('type', 'PDF')
+                'resource_item_type_id' => ResourceItemType::firstWhere('type', 'PDF')->id
             ]);
 
 
