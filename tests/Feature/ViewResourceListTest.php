@@ -4,11 +4,14 @@ namespace Tests\Feature;
 
 use App\Models\ResourceAttachment;
 use App\Models\ResourceItem;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ViewResourceListTest extends TestCase
 {
+    use DatabaseMigrations;
+
     /**
      * A basic test example.
      *
@@ -25,7 +28,7 @@ class ViewResourceListTest extends TestCase
     public function visitor_can_view_a_resource_listing()
     {
         $resourcePdf = ResourceItem::factory()
-            ->has(ResourceAttachment::factory()->make([
+            ->has(ResourceAttachment::factory([
                 'filename' => 'Some name',
                 'path' => 'some/cool/path/here.txt'
             ]))
