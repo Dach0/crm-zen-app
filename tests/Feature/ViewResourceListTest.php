@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\ResourceAttachment;
 use App\Models\ResourceItem;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
