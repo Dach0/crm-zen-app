@@ -43,9 +43,13 @@ class ViewResourceListTest extends TestCase
     private function makePdfResource()
     {
         return ResourceItem::factory()
-            ->has(ResourceAttachment::factory([
-                'filename' => 'Some name',
-                'path' => 'some/cool/path/here.txt'
+            ->has(ResourceDetail::factory([
+                'key' => 'file_name',
+                'value' => 'Some name'
+            ]))
+            ->has(ResourceDetail::factory([
+                'key' => 'file_path',
+                'value' => 'some/cool/path/here.txt'
             ]))
             ->create([
                 'title' => 'Some pdf resource title',
