@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\ResourceAttachment;
+use App\Models\ResourceDetail;
 use App\Models\ResourceItem;
 use App\Models\ResourceItemType;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -22,6 +23,8 @@ class ViewResourceListTest extends TestCase
         $this->seed();
 
         $this->pdfResource = $this->makePdfResource();
+
+        $this->htmlResource = $this->makeHtmlResource();
     }
 
     /** @test */
@@ -47,6 +50,23 @@ class ViewResourceListTest extends TestCase
             ->create([
                 'title' => 'Some pdf resource title',
                 'resource_item_type_id' => ResourceItemType::firstWhere('type', 'PDF')->id
+            ]);
+    }
+
+    private function makeHtmlResource()
+    {
+        return ResourceItem::factory()
+            ->has(ResourceDetail::factory([
+                'key' => 'description',
+                'value' => 'Some long text here that should be a description'
+            ]))
+            ->has(ResourceDetail::factory([
+                'key' => 'html_snippet',
+                'value' => '<h1>Hello there lovely people<h1>'
+            ]))
+            ->create([
+                'title' => 'Some HTML resource title',
+                'resource_item_type_id' => ResourceItemType::firstWhere('type', 'HTML')->id
             ]);
     }
 }

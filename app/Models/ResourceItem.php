@@ -18,6 +18,11 @@ class ResourceItem extends Model
         return $this->hasOne(ResourceAttachment::class);
     }
 
+    public function resourceDetail()
+    {
+        return $this->hasMany(ResourceDetail::class);
+    }
+
     /**
      * Create a new factory instance for the model.
      *
