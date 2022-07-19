@@ -6,6 +6,8 @@ use Database\Factories\ResourceItemFactory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ResourceItem extends Model
 {
@@ -13,9 +15,14 @@ class ResourceItem extends Model
 
     protected $guarded = [];
 
-    public function resourceDetail()
+    public function resourceDetails(): HasMany
     {
         return $this->hasMany(ResourceDetail::class);
+    }
+
+    public function resourceType(): BelongsTo
+    {
+        return $this->belongsTo(ResourceItemType::class, 'resource_item_type_id');
     }
 
     /**
