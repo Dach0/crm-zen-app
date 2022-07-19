@@ -11,8 +11,8 @@
             <x-item-details.pdf-details :item="$item" />
             @break
 
-        @case(2)
-            Second case...
+        @case('HTML')
+            <x-item-details.html-details :item="$item" />
             @break
 
         @default
