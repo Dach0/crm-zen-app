@@ -16,6 +16,6 @@
             @break
 
         @default
-            Default case...
+            <x-item-details.link-details :item="$item" />
     @endswitch
 </div>

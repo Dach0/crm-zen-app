@@ -24,7 +24,7 @@
     @vite(['resources/js/app.js'])
 </head>
 <body class="antialiased">
-    <div class="px-80 items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
+    <div class="px-96 items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
     @foreach($resourceItems as $item)
         <div class="pt-4">
             <x-list-item :item="$item"/>
