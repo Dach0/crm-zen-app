@@ -91,7 +91,7 @@ class ViewResourceListTest extends TestCase
             ]))
             ->create([
                 'title' => 'Some link resource title',
-                'resource_item_type_id' => ResourceItemType::firstWhere('type', 'HTML')->id
+                'resource_item_type_id' => ResourceItemType::firstWhere('type', 'LINK')->id
             ]);
     }
 }
