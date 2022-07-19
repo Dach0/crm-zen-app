@@ -6,7 +6,7 @@ export default function useResourceItems() {
     const getResourceItems = async () => {
         axios.get('api/resource-items')
             .then(response => {
-                resourceItems.value = response.data
+                resourceItems.value = response.data.data
             })
     }
 

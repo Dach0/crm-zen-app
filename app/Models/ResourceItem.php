@@ -9,6 +9,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @property int $id
+ * @property string $title
+ * @property int $resource_item_type_id
+ * @property ResourceItemType $resourceType
+ *
+*/
 class ResourceItem extends Model
 {
     use HasFactory;
