@@ -13,11 +13,6 @@ class ResourceItem extends Model
 
     protected $guarded = [];
 
-    public function resourceAttachment()
-    {
-        return $this->hasOne(ResourceAttachment::class);
-    }
-
     public function resourceDetail()
     {
         return $this->hasMany(ResourceDetail::class);
