@@ -15,6 +15,8 @@ class ViewResourceListTest extends TestCase
     use DatabaseMigrations;
 
     private $pdfResource;
+    private $htmlResource;
+    private $linkResource;
 
     public function setUp() :void
     {
@@ -23,8 +25,8 @@ class ViewResourceListTest extends TestCase
         $this->seed();
 
         $this->pdfResource = $this->makePdfResource();
-
         $this->htmlResource = $this->makeHtmlResource();
+        $this->htmlResource = $this->makeLinkResource();
     }
 
     /** @test */
@@ -38,6 +40,8 @@ class ViewResourceListTest extends TestCase
 
         $view->assertStatus(200);
         $view->assertSee('Some pdf resource title');
+        $view->assertSee('Some HTML resource title');
+        $view->assertSee('Some link resource title');
     }
 
     private function makePdfResource()
@@ -70,6 +74,23 @@ class ViewResourceListTest extends TestCase
             ]))
             ->create([
                 'title' => 'Some HTML resource title',
+                'resource_item_type_id' => ResourceItemType::firstWhere('type', 'HTML')->id
+            ]);
+    }
+
+    private function makeLinkResource()
+    {
+        return ResourceItem::factory()
+            ->has(ResourceDetail::factory([
+                'key' => 'link',
+                'value' => 'www.are-you-with-me.com'
+            ]))
+            ->has(ResourceDetail::factory([
+                'key' => 'open_in_new_tab',
+                'value' => 'true'
+            ]))
+            ->create([
+                'title' => 'Some link resource title',
                 'resource_item_type_id' => ResourceItemType::firstWhere('type', 'HTML')->id
             ]);
     }
