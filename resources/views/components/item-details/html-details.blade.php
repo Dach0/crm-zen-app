@@ -5,7 +5,7 @@
     <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
         <div class="sm:col-span-1">
             <dt class="text-sm font-medium text-gray-500">Type</dt>
-            <dd class="mt-1 text-sm text-gray-900">{{ $item['resourceType'] }}</dd>
+            <dd class="mt-1 text-2xl text-gray-900"><i class="fa-brands fa-html5"></i></dd>
         </div>
         <div class="sm:col-span-1">
             <dt class="text-sm font-medium text-gray-500">Description</dt>
