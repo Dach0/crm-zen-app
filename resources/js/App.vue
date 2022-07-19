@@ -1,9 +1,9 @@
 <template>
-    <hello-world />
+    <resource-items />
 </template>
 
 <script setup>
-import HelloWorld from "./components/HelloWorld.vue";
+import ResourceItems from "./components/recource-items/ResourceItems.vue";
 </script>
 
 <style scoped>
