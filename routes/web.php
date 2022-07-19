@@ -13,4 +13,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [\App\Http\Controllers\WebsiteController::class, 'index']);
+Route::get('/', [\App\Http\Controllers\WebsiteController::class, 'index'])->name('home');
+Route::get('/admin', [\App\Http\Controllers\WebsiteController::class, 'admin'])->name('admin');

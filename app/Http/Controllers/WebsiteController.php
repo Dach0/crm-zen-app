@@ -20,8 +20,12 @@ class WebsiteController extends Controller
                     'details' => $this->transformDetails($item->resourceDetails)
                 ];
     });
-//dd($resourceItems->toArray());
         return view('home', ['resourceItems' => $resourceItems]);
+    }
+
+    public function admin()
+    {
+        return view('home');
     }
 
     private function transformDetails($details): array
