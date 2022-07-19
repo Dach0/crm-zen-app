@@ -7,7 +7,7 @@
                         <thead class="bg-gray-50">
                         <tr>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+                            <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created at</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Updated at</th>
                             <th scope="col" class="relative px-6 py-3">
@@ -20,8 +20,10 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                 {{ item.title }}
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                {{ item.type }}
+                            <td class="px-6 py-4 whitespace-nowrap text-gray-500 text-center">
+                                <i
+                                    :class="getIconClassBasedOnType(item.type)"
+                                />
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 {{ item.created_at }}
@@ -41,17 +43,26 @@
     </div>
 </template>
 
-<script>
+<script setup>
 import useResourceItems from "../../composables/resourceItems";
 import {onMounted} from "vue";
 
-export default {
-    setup () {
-        const { resourceItems, getResourceItems } = useResourceItems()
+    const { resourceItems, getResourceItems } = useResourceItems()
 
-        onMounted(getResourceItems)
+    onMounted(getResourceItems)
 
-        return {resourceItems}
+    function getIconClassBasedOnType(resourceType) {
+        console.log(resourceType)
+        switch(resourceType) {
+            case 'PDF':
+                return 'fa-solid fa-file-pdf'
+            case 'HTML':
+                return 'fa-brands fa-html5'
+            case 'LINK':
+                return 'fa-solid fa-link'
+            default:
+                return ''
+        }
     }
-}
+
 </script>
