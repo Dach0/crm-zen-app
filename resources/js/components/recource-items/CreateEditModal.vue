@@ -34,9 +34,7 @@
                                                                 class="max-w-lg block focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
                                                             >
                                                                 <option value="">Choose type</option>
-                                                                <option value="1">PDF</option>
-                                                                <option value="2">HTML</option>
-                                                                <option value="3">LINK</option>
+                                                                <option v-for="item in resourceItemTypes" value="item.id">{{ item.type }}</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -152,7 +150,8 @@ const resourceItem = reactive({
 })
 
 const props = defineProps({
-    open: Boolean
+    open: Boolean,
+    resourceItemTypes: Array
 })
 
 </script>

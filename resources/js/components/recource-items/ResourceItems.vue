@@ -12,6 +12,7 @@
                     </button>
                     <create-edit-modal
                         :open="openCreateEditDialog"
+                        :resource-item-types="resourceItemsTypes"
                         @closeDialog="openCreateEditDialog=false"
                     />
                 </div>
