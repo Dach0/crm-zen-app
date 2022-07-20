@@ -13,6 +13,11 @@ class ResourceItemController extends Controller
 {
     public function index(): Collection|AnonymousResourceCollection
     {
-        return ResourceItemResource::collection(ResourceItem::with('resourceType')->get());
+        $resourceItems = ResourceItem::with('resourceType')
+            ->when(request('resourceTypeFilter'), function ($query) {
+                $query->where('resource_item_type_id', request('resourceTypeFilter'));
+            })
+            ->get();
+        return ResourceItemResource::collection($resourceItems);
     }
 }
