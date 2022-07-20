@@ -2,6 +2,19 @@
     <div class="flex flex-col">
         <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                <div class="flex flex-row-reverse">
+                    <button
+                        type="button"
+                        class="inline-flex items-center px-2.5 py-1.5 my-2 border border-transparent text-xs font-medium rounded text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        @click="openCreateEditDialog=true"
+                    >
+                        Create resource
+                    </button>
+                    <create-edit-modal
+                        :open="openCreateEditDialog"
+                        @closeDialog="openCreateEditDialog=false"
+                    />
+                </div>
                 <simple-filter
                     :items="resourceItemsTypes"
                     @filterChanged="this.selectedType = $event"
@@ -63,10 +76,13 @@ import {onMounted, ref, watch} from "vue";
 import useResourceItemTypes from "../../composables/resourceTypes";
 import getIconClassBasedOnType from "../../helpers";
 import SimpleFilter from '../recource-items/SimpleFilter.vue'
+import CreateEditModal from "./CreateEditModal.vue";
 
 const selectedType = ref('')
 const {resourceItems, getResourceItems} = useResourceItems()
 const {resourceItemsTypes, getResourceItemTypes} = useResourceItemTypes()
+
+const openCreateEditDialog = ref(false)
 
 onMounted(() => {
     getResourceItems()
