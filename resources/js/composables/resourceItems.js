@@ -2,6 +2,7 @@ import {ref} from "vue";
 
 export default function useResourceItems() {
     const resourceItems = ref([])
+    const validationErrors = ref({})
 
     const getResourceItems = async (resourceTypeFilter = '') => {
         axios.get('api/resource-items?resourceTypeFilter=' + resourceTypeFilter)
@@ -13,11 +14,14 @@ export default function useResourceItems() {
     const storeResourceItem = async (resourceItem) => {
         console.log(resourceItem)
         axios.post('api/resource-items', resourceItem)
-            .then(response => {
-                console.log(response)
+            .then(response => {})
+            .catch(error => {
+                if (error.response?.data) {
+                    validationErrors.value = error.response.data.errors
+                }
             })
     }
 
 
-    return { resourceItems, getResourceItems, storeResourceItem }
+    return { resourceItems, getResourceItems, storeResourceItem, validationErrors }
 }

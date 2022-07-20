@@ -36,6 +36,12 @@
                                                                 <option value="">Choose type</option>
                                                                 <option v-for="item in resourceItemTypes" value="item.id">{{ item.type }}</option>
                                                             </select>
+                                                            <div
+                                                                class="text-sm text-red-500 mt-1"
+                                                                v-for="message in validationErrors?.resource_item_type_id"
+                                                            >
+                                                                {{ message }}
+                                                            </div>
                                                         </div>
                                                     </div>
 
@@ -43,6 +49,12 @@
                                                         <label for="title" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"> Title </label>
                                                         <div class="mt-1 sm:mt-0 sm:col-span-2">
                                                             <input v-model="resourceItem.title" type="text" name="title" id="title" autocomplete="given-name" class="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md" />
+                                                            <div
+                                                                class="text-sm text-red-500 mt-1"
+                                                                v-for="message in validationErrors?.resource_item_type_id"
+                                                            >
+                                                                {{ message }}
+                                                            </div>
                                                         </div>
                                                     </div>
 
@@ -141,7 +153,7 @@ import {reactive, ref} from 'vue'
 import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import useResourceItems from "../../composables/resourceItems";
 
-const { storeResourceItem } = useResourceItems()
+const { storeResourceItem, validationErrors } = useResourceItems()
 const resourceType = ref('')
 
 const resourceItem = reactive({
