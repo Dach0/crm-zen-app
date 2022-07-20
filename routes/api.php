@@ -19,3 +19,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('resource-items', [\App\Http\Controllers\Api\ResourceItemController::class, 'index']);
+Route::get('resource-types', [\App\Http\Controllers\Api\ResourceItemTypeController::class, 'index']);
