@@ -1,7 +1,7 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
 <template>
     <TransitionRoot as="template" :show="open">
-        <Dialog as="div" class="fixed z-10 inset-0 overflow-y-auto" @close="open = false">
+        <Dialog as="div" class="fixed z-10 inset-0 overflow-y-auto">
             <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                 <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
                     <DialogOverlay class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
@@ -14,7 +14,7 @@
                         <div class="sm:flex sm:items-start">
                             <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                                 <div class="mt-2">
-                                    <form @submit.prevent class="space-y-8 divide-y divide-gray-200">
+                                    <form @submit.prevent="storeResourceItem(resourceItem)" class="space-y-8 divide-y divide-gray-200">
                                         <div class="space-y-8 divide-y divide-gray-200 sm:space-y-5">
                                             <div>
                                                 <div>
@@ -26,10 +26,17 @@
                                                     <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
                                                         <label for="resource-type" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"> Resource type </label>
                                                         <div class="mt-1 sm:mt-0 sm:col-span-2">
-                                                            <select id="resource-type" name="resource-type" autocomplete="resource-type" class="max-w-lg block focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:max-w-xs sm:text-sm border-gray-300 rounded-md">
-                                                                <option>PDF</option>
-                                                                <option>HTML</option>
-                                                                <option>LINK</option>
+                                                            <select
+                                                                id="resource-type"
+                                                                v-model="resourceItem.resource_item_type_id"
+                                                                name="resource-type"
+                                                                autocomplete="resource-type"
+                                                                class="max-w-lg block focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+                                                            >
+                                                                <option value="">Choose type</option>
+                                                                <option value="1">PDF</option>
+                                                                <option value="2">HTML</option>
+                                                                <option value="3">LINK</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -37,7 +44,7 @@
                                                     <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
                                                         <label for="title" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"> Title </label>
                                                         <div class="mt-1 sm:mt-0 sm:col-span-2">
-                                                            <input type="text" name="title" id="title" autocomplete="given-name" class="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md" />
+                                                            <input v-model="resourceItem.title" type="text" name="title" id="title" autocomplete="given-name" class="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md" />
                                                         </div>
                                                     </div>
 
@@ -132,8 +139,17 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import {reactive, ref} from 'vue'
 import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
+import useResourceItems from "../../composables/resourceItems";
+
+const { storeResourceItem } = useResourceItems()
+const resourceType = ref('')
+
+const resourceItem = reactive({
+    title: '',
+    resource_item_type_id: ''
+})
 
 const props = defineProps({
     open: Boolean

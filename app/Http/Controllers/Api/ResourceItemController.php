@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreResourceItemRequest;
 use App\Http\Resources\ResourceItemResource;
 use App\Models\ResourceItem;
 use Illuminate\Database\Eloquent\Collection;
@@ -19,5 +20,12 @@ class ResourceItemController extends Controller
             })
             ->get();
         return ResourceItemResource::collection($resourceItems);
+    }
+
+    public function store(StoreResourceItemRequest $request)
+    {
+        $item = ResourceItem::create($request->validated());
+
+        return [ 'data' => $item, 'message' => 'Successfully created resource'];
     }
 }

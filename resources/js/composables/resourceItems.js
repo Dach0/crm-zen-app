@@ -10,6 +10,14 @@ export default function useResourceItems() {
             })
     }
 
+    const storeResourceItem = async (resourceItem) => {
+        console.log(resourceItem)
+        axios.post('api/resource-items', resourceItem)
+            .then(response => {
+                console.log(response)
+            })
+    }
 
-    return { resourceItems, getResourceItems }
+
+    return { resourceItems, getResourceItems, storeResourceItem }
 }

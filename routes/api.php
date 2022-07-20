@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ResourceItemController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,5 +19,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('resource-items', [\App\Http\Controllers\Api\ResourceItemController::class, 'index']);
+Route::apiResource('resource-items', ResourceItemController::class)->except('show');
 Route::get('resource-types', [\App\Http\Controllers\Api\ResourceItemTypeController::class, 'index']);
