@@ -58,7 +58,7 @@ class ResourceItemController extends Controller
             Storage::disk('public')->delete('/pdf/' . $itemDetail->value);
         }
 
-//        $resourceItem->delete();
+        $resourceItem->delete();
 
         return response()->noContent();
     }
