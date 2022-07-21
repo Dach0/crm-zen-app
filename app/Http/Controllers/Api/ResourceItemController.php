@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class ResourceItemController extends Controller
@@ -28,51 +29,29 @@ class ResourceItemController extends Controller
 
     public function store(StoreResourceItemRequest $request)
     {
-        $item = ResourceItem::create([
-            'title' => $request->title,
-            'resource_item_type_id' => $request->resource_item_type_id
-        ]);
+        DB::transaction(function () use ($request) {
+            /** @var ResourceItem $article */
+            $item = ResourceItem::create([
+                'title' => $request->title,
+                'resource_item_type_id' => $request->resource_item_type_id
+            ]);
 
-        if ($request->hasFile('pdf_file')) {
-            $savedFilename = $this->uploadFile($request->file('pdf_file'), 'pdf');
-            $this->attachResourceItemDetails('file_name', $savedFilename, $item->id);
-        }
-
-        if ($request->filled('link')){
-            $this->attachResourceItemDetails('link', $request->link, $item->id);
-            $this->attachResourceItemDetails('open_in_new_tab', $request->open_in_new_tab, $item->id);
-        }
-
-        if ($request->filled('description') && $request->filled('html_snippet')){
-            $this->attachResourceItemDetails('description', $request->description, $item->id);
-            $this->attachResourceItemDetails('html_snippet', $request->html_snippet, $item->id);
-        }
-
+            $this->saveDetails($request, $item);
+        });
 
         return response()->json(['success' => 'success'], Response::HTTP_CREATED);
     }
 
     public function update(StoreResourceItemRequest $request, ResourceItem $resourceItem)
     {
-        $resourceItem->update([
-            'title' => $request->title,
-            'resource_item_type_id' => $request->resource_item_type_id
-        ]);
+        DB::transaction(function () use ($request, $resourceItem) {
+            $resourceItem->update([
+                'title' => $request->title,
+                'resource_item_type_id' => $request->resource_item_type_id
+            ]);
 
-        if ($request->hasFile('pdf_file')) {
-            $savedFilename = $this->uploadFile($request->file('pdf_file'), 'pdf');
-            $this->attachResourceItemDetails('file_name', $savedFilename, $resourceItem->id);
-        }
-
-        if ($request->filled('link')){
-            $this->attachResourceItemDetails('link', $request->link, $resourceItem->id);
-            $this->attachResourceItemDetails('open_in_new_tab', $request->open_in_new_tab, $resourceItem->id);
-        }
-
-        if ($request->filled('description') && $request->filled('html_snippet')){
-            $this->attachResourceItemDetails('description', $request->description, $resourceItem->id);
-            $this->attachResourceItemDetails('html_snippet', $request->html_snippet, $resourceItem->id);
-        }
+            $this->saveDetails($request, $resourceItem);
+        });
 
         return response()->json(['success' => 'success'], Response::HTTP_OK);
     }
@@ -115,5 +94,28 @@ class ResourceItemController extends Controller
                 'value' => $detailValue,
                 'resource_item_id' => $resourceItemId
             ]);
+    }
+
+    /**
+     * @param StoreResourceItemRequest $request
+     * @param $item
+     * @return void
+     */
+    private function saveDetails(StoreResourceItemRequest $request, $item): void
+    {
+        if ($request->hasFile('pdf_file')) {
+            $savedFilename = $this->uploadFile($request->file('pdf_file'), 'pdf');
+            $this->attachResourceItemDetails('file_name', $savedFilename, $item->id);
+        }
+
+        if ($request->filled('link')) {
+            $this->attachResourceItemDetails('link', $request->link, $item->id);
+            $this->attachResourceItemDetails('open_in_new_tab', $request->open_in_new_tab, $item->id);
+        }
+
+        if ($request->filled('description') && $request->filled('html_snippet')) {
+            $this->attachResourceItemDetails('description', $request->description, $item->id);
+            $this->attachResourceItemDetails('html_snippet', $request->html_snippet, $item->id);
+        }
     }
 }
