@@ -41,6 +41,7 @@ export default function useResourceItems() {
             axios.delete('/api/resource-items/' + id)
                 .then(response => {
                     getResourceItems()
+                    alert('Bravo, successfully deleted! Happy now :)')
                 })
                 .catch(error => {
                     alert('Something went wrong')

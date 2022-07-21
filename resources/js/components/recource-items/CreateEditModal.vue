@@ -190,14 +190,11 @@
 </template>
 
 <script setup>
-import {reactive, ref} from 'vue'
+import {reactive, ref, watch} from 'vue'
 import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import useResourceItems from "../../composables/resourceItems";
 
-const { storeResourceItem, validationErrors, isLoading } = useResourceItems()
-const resourceType = ref('')
-
-const resourceItem = reactive({
+let resourceItem = reactive({
     title: '',
     resource_item_type_id: '',
     pdf_file: '',
@@ -206,6 +203,18 @@ const resourceItem = reactive({
     link: '',
     open_in_new_tab: false
 })
+
+watch(() => resourceItem.resource_item_type_id, (curr, prev) => {
+        resourceItem.title = ''
+        resourceItem.pdf_file = ''
+        resourceItem.description = ''
+        resourceItem.html_snippet = ''
+        resourceItem.link = ''
+        resourceItem.open_in_new_tab = false
+}, { deep: true })
+
+const { storeResourceItem, validationErrors, isLoading } = useResourceItems()
+const resourceType = ref('')
 
 const props = defineProps({
     open: Boolean,
