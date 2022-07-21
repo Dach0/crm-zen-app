@@ -32,24 +32,12 @@ class ResourceItemController extends Controller
 
         if ($request->hasFile('pdf_file')) {
             $savedFilename = $this->uploadFile($request->file('pdf_file'), 'pdf');
-            ResourceDetail::create([
-                'key' => 'file_name',
-                'value' => $savedFilename,
-                'resource_item_id' => $item->id
-            ]);
+            $this->attachResourceItemDetails('file_name', $savedFilename, $item->id);
         }
 
         if ($request->filled('link')){
-            ResourceDetail::create([
-                'key' => 'link',
-                'value' => $request->link,
-                'resource_item_id' => $item->id
-            ]);
-            ResourceDetail::create([
-                'key' => 'open_in_new_tab',
-                'value' => $request->open_in_new_tab,
-                'resource_item_id' => $item->id
-            ]);
+            $this->attachResourceItemDetails('link', $request->link, $item->id);
+            $this->attachResourceItemDetails('open_in_new_tab', $request->open_in_new_tab, $item->id);
         }
 
 
@@ -67,5 +55,14 @@ class ResourceItemController extends Controller
         $file->storeAs($path, $filename, 'public');
 
         return $filename;
+    }
+
+    private function attachResourceItemDetails($detailKey, $detailValue, $resourceItemId)
+    {
+        ResourceDetail::create([
+                'key' => $detailKey,
+                'value' => $detailValue,
+                'resource_item_id' => $resourceItemId
+            ]);
     }
 }
