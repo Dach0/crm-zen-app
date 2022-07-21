@@ -228,7 +228,7 @@ watch(() => props.open, (curr, prev) => {
         resourceItem.html_snippet = props.editingItem?.html_snippet
         resourceItem.resource_item_type_id = props.editingItem?.resource_item_type_id
         resourceItem.link = props.editingItem?.link
-        resourceItem.open_in_new_tab = false
+        resourceItem.open_in_new_tab = props.editingItem?.open_in_new_tab
     } else resourceItem.resource_item_type_id = ''
 }, { immediate: true })
 
