@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('resource_details', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('resource_item_id')->references('id')->on('resource_items');
+            $table->foreignId('resource_item_id')->references('id')->on('resource_items')->onDelete('cascade');
             $table->string('key');
             $table->text('value');
             $table->timestamps();
