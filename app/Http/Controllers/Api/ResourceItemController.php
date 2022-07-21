@@ -39,6 +39,18 @@ class ResourceItemController extends Controller
             ]);
         }
 
+        if ($request->filled('link')){
+            ResourceDetail::create([
+                'key' => 'link',
+                'value' => $request->link,
+                'resource_item_id' => $item->id
+            ]);
+            ResourceDetail::create([
+                'key' => 'open_in_new_tab',
+                'value' => $request->open_in_new_tab,
+                'resource_item_id' => $item->id
+            ]);
+        }
 
 
         return [ 'data' => $item, 'message' => 'Successfully created resource'];

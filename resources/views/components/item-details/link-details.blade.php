@@ -13,6 +13,7 @@
             <dt class="text-sm font-medium text-gray-500">Go to</dt>
             <dd class="mt-1 text-sm text-gray-900">
                 <div class="ml-4 flex-shrink-0">
+                    @if($item['details'] && $item['details']['link'])
                     <a
                         href="{{ $item['details']['link'] }}"
                         class="font-medium text-indigo-600 hover:text-indigo-500"
@@ -20,6 +21,7 @@
                     >
                         {{ $item['details']['link'] }}
                     </a>
+                    @endif
                 </div>
             </dd>
         </div>

@@ -120,8 +120,14 @@
                                                             <label for="website" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"> Website </label>
                                                             <div class="mt-1 sm:mt-0 sm:col-span-2">
                                                                 <div class="mt-1 flex rounded-md shadow-sm">
-                                                                    <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm"> http:// </span>
-                                                                    <input type="text" name="company-website" id="company-website" class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300" placeholder="www.example.com" />
+                                                                    <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">include http:// </span>
+                                                                    <input v-model="resourceItem.link" type="text" name="website" id="website" class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300" placeholder="http://www.example.com" />
+                                                                </div>
+                                                                <div
+                                                                    class="text-sm text-red-500 mt-1"
+                                                                    v-for="message in validationErrors?.link"
+                                                                >
+                                                                    {{ message }}
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -132,10 +138,10 @@
                                                                 <div class="max-w-lg space-y-4">
                                                                     <div class="relative flex items-start">
                                                                         <div class="flex items-center h-5">
-                                                                            <input id="comments" name="comments" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
+                                                                            <input v-model="resourceItem.open_in_new_tab" id="new-tab-chkx" name="new-tab-chkx" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
                                                                         </div>
                                                                         <div class="ml-3 text-sm">
-                                                                            <label for="comments" class="font-medium text-gray-700">New tab</label>
+                                                                            <label for="new-tab-chkx" class="font-medium text-gray-700">New tab</label>
                                                                             <p class="text-gray-500">Check here if site should be opened in new tab when clicked</p>
                                                                         </div>
                                                                     </div>
@@ -182,7 +188,9 @@ const resourceType = ref('')
 const resourceItem = reactive({
     title: '',
     resource_item_type_id: '',
-    pdf_file: ''
+    pdf_file: '',
+    link: '',
+    open_in_new_tab: false
 })
 
 const props = defineProps({

@@ -25,14 +25,18 @@ class StoreResourceItemRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'title' => 'required',
+            'title' => ['required','min:3','max:255'],
             'resource_item_type_id' => ['required','exists:resource_item_types,id']
         ];
 
         $selectedType = ResourceItemType::query()->find($this->resource_item_type_id);
 
         if ($selectedType?->type === 'PDF') {
-            $rules['pdf_file'] = 'required|file|mimes:pdf|max:2048';
+            $rules['pdf_file'] = ['required','file','mimes:pdf','max:2048'];
+        }
+
+        if ($selectedType?->type === 'LINK') {
+            $rules['link'] = ['required','url'];
         }
 
         return $rules;
