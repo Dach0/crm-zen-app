@@ -1,2 +1,4 @@
 *
 !.gitignore
+pdf/*
+!pdf/Damjan Krivacevic - CV.pdf
