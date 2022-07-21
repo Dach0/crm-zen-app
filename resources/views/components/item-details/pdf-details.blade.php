@@ -22,7 +22,15 @@
                             <span class="ml-2 flex-1 w-0 truncate"> {{ $item['details'] && $item['details']['file_name'] ? $item['details']['file_name'] : 'n/a' }} </span>
                         </div>
                         <div class="ml-4 flex-shrink-0">
-                            <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500"> Download </a>
+                            @if($item['details'] && $item['details']['file_name'])
+                            <a
+                                download="{{ $item['details']['file_name'] }}"
+                                href="{{ \Illuminate\Support\Facades\Storage::url('/pdf/' . $item['details']['file_name']) }}"
+                                class="font-medium text-indigo-600 hover:text-indigo-500"
+                            >
+                                Download
+                                </a>
+                            @endif
                         </div>
                     </li>
                 </ul>
