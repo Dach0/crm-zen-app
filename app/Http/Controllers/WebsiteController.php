@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\ResourceItem;
-use Illuminate\Support\Collection;
 
 class WebsiteController extends Controller
 {
