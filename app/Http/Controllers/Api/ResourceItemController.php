@@ -54,7 +54,27 @@ class ResourceItemController extends Controller
 
     public function update(StoreResourceItemRequest $request, ResourceItem $resourceItem)
     {
-        // TODO save here everything you need
+        $resourceItem->update([
+            'title' => $request->title,
+            'resource_item_type_id' => $request->resource_item_type_id
+        ]);
+
+        if ($request->hasFile('pdf_file')) {
+            $savedFilename = $this->uploadFile($request->file('pdf_file'), 'pdf');
+            $this->attachResourceItemDetails('file_name', $savedFilename, $resourceItem->id);
+        }
+
+        if ($request->filled('link')){
+            $this->attachResourceItemDetails('link', $request->link, $resourceItem->id);
+            $this->attachResourceItemDetails('open_in_new_tab', $request->open_in_new_tab, $resourceItem->id);
+        }
+
+        if ($request->filled('description') && $request->filled('html_snippet')){
+            $this->attachResourceItemDetails('description', $request->description, $resourceItem->id);
+            $this->attachResourceItemDetails('html_snippet', $request->html_snippet, $resourceItem->id);
+        }
+
+        return response()->json(['success' => 'success'], Response::HTTP_OK);
     }
 
     public function destroy(ResourceItem $resourceItem)
@@ -85,7 +105,12 @@ class ResourceItemController extends Controller
 
     private function attachResourceItemDetails($detailKey, $detailValue, $resourceItemId)
     {
-        ResourceDetail::create([
+        ResourceDetail::updateOrCreate(
+            [
+                'key' => $detailKey,
+                'resource_item_id' => $resourceItemId
+            ],
+            [
                 'key' => $detailKey,
                 'value' => $detailValue,
                 'resource_item_id' => $resourceItemId
