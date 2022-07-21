@@ -25,8 +25,8 @@
     @vite(['resources/js/app.js'])
 </head>
     <body class="antialiased bg-gray-100">
-    @include('partials.navbar')
         @if(\Illuminate\Support\Facades\Route::is('home'))
+            @include('partials.navbar')
             @include('partials.list')
         @elseIf(\Illuminate\Support\Facades\Route::is('admin'))
             @include('partials.admin')

@@ -8,36 +8,7 @@
                     <img class="hidden lg:block h-8 w-auto" src="https://tailwindui.com/img/logos/workflow-logo-indigo-600-mark-gray-800-text.svg" alt="Workflow">
                 </div>
                 <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
-                    <!-- Current: "border-indigo-500 text-gray-900", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" -->
-                    <a href="/"
-                       @class([
-                            'border-indigo-500' => request()->routeIs('home'),
-                            'text-gray-900',
-                            'inline-flex',
-                            'items-center',
-                            'px-1',
-                            'pt-1',
-                            'border-b-2',
-                            'text-sm',
-                            'font-medium'
-                        ])
-                    > Visitor </a>
-                    <a href="/admin"
-                       @class([
-                                'border-indigo-500' => request()->routeIs('admin'),
-                                'border-transparent',
-                                'text-gray-500',
-                                'hover:border-gray-300',
-                                'hover:text-gray-700',
-                                'inline-flex',
-                                'items-center',
-                                'px-1',
-                                'pt-1',
-                                'border-b-2',
-                                'text-sm',
-                                'font-medium',
-                                ])
-                    > Admin </a>
+                    <a href="/admin" target="_blank" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"> Open admin </a>
                 </div>
             </div>
         </div>
