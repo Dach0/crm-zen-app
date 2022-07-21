@@ -40,6 +40,11 @@ class ResourceItemController extends Controller
             $this->attachResourceItemDetails('open_in_new_tab', $request->open_in_new_tab, $item->id);
         }
 
+        if ($request->filled('description') && $request->filled('html_snippet')){
+            $this->attachResourceItemDetails('description', $request->description, $item->id);
+            $this->attachResourceItemDetails('html_snippet', $request->html_snippet, $item->id);
+        }
+
 
         return [ 'data' => $item, 'message' => 'Successfully created resource'];
     }

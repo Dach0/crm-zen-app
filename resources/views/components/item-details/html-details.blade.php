@@ -16,11 +16,9 @@
         <div class="sm:col-span-2">
             <dt class="text-sm font-medium text-gray-500">Snippet</dt>
             <dd class="mt-1 text-sm text-gray-900">
-                <pre>
-                    <code class="language-html">{{ $item['details'] && $item['details']['html_snippet']
-                                                        ? $item['details']['html_snippet']
-                                                        : 'n/a'}}</code>
-                </pre>
+                <pre><code class="language-html">{{ $item['details'] && $item['details']['html_snippet']
+                            ? $item['details']['html_snippet']
+                            : 'n/a'}}</code></pre>
             </dd>
         </div>
     </dl>

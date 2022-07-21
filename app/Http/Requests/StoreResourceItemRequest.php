@@ -39,6 +39,11 @@ class StoreResourceItemRequest extends FormRequest
             $rules['link'] = ['required','url'];
         }
 
+        if ($selectedType?->type === 'HTML') {
+            $rules['description'] = ['required','min:5','max:500'];
+            $rules['html_snippet'] = ['required','min:5','max:5000'];
+        }
+
         return $rules;
     }
 }

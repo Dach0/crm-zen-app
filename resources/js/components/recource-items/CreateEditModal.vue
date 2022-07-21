@@ -99,16 +99,28 @@
                                                         <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
                                                             <label for="snippet-description" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"> Description </label>
                                                             <div class="mt-1 sm:mt-0 sm:col-span-2">
-                                                                <textarea id="snippet-description" name="snippet-description" rows="3" class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md" />
+                                                                <textarea v-model="resourceItem.description" id="snippet-description" name="snippet-description" rows="3" class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md" />
                                                                 <p class="mt-2 text-sm text-gray-500">Describe your snippet here.</p>
+                                                                <div
+                                                                    class="text-sm text-red-500 mt-1"
+                                                                    v-for="message in validationErrors?.description"
+                                                                >
+                                                                    {{ message }}
+                                                                </div>
                                                             </div>
                                                         </div>
 
                                                         <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
                                                             <label for="snippet-code" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"> Snippet </label>
                                                             <div class="mt-1 sm:mt-0 sm:col-span-2">
-                                                                <textarea id="snippet-code" name="snippet-code" rows="7" class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md" />
+                                                                <textarea v-model="resourceItem.html_snippet" id="snippet-code" name="snippet-code" rows="7" class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md" />
                                                                 <p class="mt-2 text-sm text-gray-500">Paste or write your snippet here</p>
+                                                                <div
+                                                                    class="text-sm text-red-500 mt-1"
+                                                                    v-for="message in validationErrors?.html_snippet"
+                                                                >
+                                                                    {{ message }}
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </template>
@@ -189,6 +201,8 @@ const resourceItem = reactive({
     title: '',
     resource_item_type_id: '',
     pdf_file: '',
+    description: '',
+    html_snippet: '',
     link: '',
     open_in_new_tab: false
 })
