@@ -42,6 +42,10 @@ Then run following comands
 
 And voila! You should be able to access your app at http://crm-zen-app.localhost:8085/
 
+Optionally you can run tests as few of them are written as begging of development started as TDD.
+
+    ./vendor/bin/sail artisan test
+
 #### Possible errors
 
 If you have used sail before, the might be some problems connecting to your database, as for rejecting
