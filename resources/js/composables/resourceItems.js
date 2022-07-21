@@ -2,8 +2,6 @@ import {ref} from "vue";
 
 export default function useResourceItems() {
     const resourceItems = ref([])
-    const validationErrors = ref({})
-    const isLoading = ref(false)
 
     const getResourceItems = async (resourceTypeFilter = '') => {
         axios.get('api/resource-items?resourceTypeFilter=' + resourceTypeFilter)
@@ -12,62 +10,11 @@ export default function useResourceItems() {
             })
     }
 
-    const storeResourceItem = async (resourceItem) => {
-        if (isLoading.value) return;
-
-        isLoading.value = true
-        validationErrors.value = {}
-
-        let serializedResourceItem = new FormData()
-
-        for (let field in resourceItem) {
-            if (resourceItem.hasOwnProperty(field)) {
-                serializedResourceItem.append(field, resourceItem[field])
-            }
-        }
-
-        axios.post('api/resource-items', serializedResourceItem)
-            .then(response => {})
-            .catch(error => {
-                if (error.response?.data) {
-                    validationErrors.value = error.response.data.errors
-                }
-            })
-            .finally(() => isLoading.value = false)
-    }
-
-    const updateResourceItem = async (resourceItem) => {
-        if (isLoading.value) return;
-
-        isLoading.value = true
-        validationErrors.value = {}
-
-        let serializedResourceItem = new FormData()
-
-        for (let field in resourceItem) {
-            if (resourceItem.hasOwnProperty(field)) {
-                serializedResourceItem.append(field, resourceItem[field])
-            }
-        }
-
-        serializedResourceItem.append( '_method', 'patch' );
-
-        axios.post('api/resource-items/' + resourceItem.id , serializedResourceItem)
-            .then(response => {})
-            .catch(error => {
-                if (error.response?.data) {
-                    validationErrors.value = error.response.data.errors
-                }
-            })
-            .finally(() => isLoading.value = false)
-    }
-
     const deleteResourceItem = async (id) => {
         if (confirm("Are you sure you want to delete a record?")) {
             axios.delete('/api/resource-items/' + id)
                 .then(response => {
                     getResourceItems()
-                    alert('Bravo, successfully deleted! Happy now :)')
                 })
                 .catch(error => {
                     alert('Something went wrong')
@@ -79,10 +26,6 @@ export default function useResourceItems() {
     return {
         resourceItems,
         getResourceItems,
-        storeResourceItem,
-        updateResourceItem,
-        validationErrors,
-        isLoading,
         deleteResourceItem
     }
 }

@@ -168,7 +168,7 @@
 
                                         <div class="pt-5">
                                             <div class="flex justify-end">
-                                                <button type="button" class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" @click="$emit('closeDialog')">Cancel</button>
+                                                <button type="button" class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" @click="emit('closeDialog')">Cancel</button>
                                                 <button type="submit" :disabled="isLoading" class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                                     <svg v-show="isLoading" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -190,9 +190,8 @@
 </template>
 
 <script setup>
-import {onMounted, reactive, ref, watch} from 'vue'
+import {reactive, ref, watch} from 'vue'
 import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
-import useResourceItems from "../../composables/resourceItems";
 
 let resourceItem = reactive({
     title: '',
@@ -229,13 +228,9 @@ watch(() => props.open, (curr, prev) => {
     } else resourceItem.resource_item_type_id = ''
 }, { immediate: true })
 
-const {
-    storeResourceItem,
-    validationErrors,
-    isLoading,
-    updateResourceItem
-} = useResourceItems()
 const resourceType = ref('')
+const validationErrors = ref({})
+const isLoading = ref(false)
 
 const props = defineProps({
     open: Boolean,
@@ -244,6 +239,8 @@ const props = defineProps({
     },
     resourceItemTypes: Array
 })
+
+const emit = defineEmits(['resourceCreated', 'closeDialog'])
 
 function shouldShowForm(typeOfForm) {
     const selected = props.resourceItemTypes.find(item => item.id === resourceItem.resource_item_type_id)
@@ -254,10 +251,65 @@ function shouldShowForm(typeOfForm) {
 
 function sendStoreOrUpdateRequest(item) {
     if (props.editingItem) {
-        item.id = props.editingItem.id
-        console.log(item)
         updateResourceItem(item)
-    } else storeResourceItem(item)
+    }
+    else {
+        storeResourceItem(item)
+    }
+}
+
+const storeResourceItem = async (resourceItem) => {
+    if (isLoading.value) return;
+
+    isLoading.value = true
+    validationErrors.value = {}
+
+    let serializedResourceItem = new FormData()
+
+    for (let field in resourceItem) {
+        if (resourceItem.hasOwnProperty(field)) {
+            serializedResourceItem.append(field, resourceItem[field])
+        }
+    }
+
+    axios.post('api/resource-items', serializedResourceItem)
+        .then(response => {
+            emit('resourceCreated')
+        })
+        .catch(error => {
+            if (error.response?.data) {
+                validationErrors.value = error.response.data.errors
+            }
+        })
+        .finally(() => isLoading.value = false)
+}
+
+const updateResourceItem = async (resourceItem) => {
+    if (isLoading.value) return;
+
+    isLoading.value = true
+    validationErrors.value = {}
+
+    let serializedResourceItem = new FormData()
+
+    for (let field in resourceItem) {
+        if (resourceItem.hasOwnProperty(field)) {
+            serializedResourceItem.append(field, resourceItem[field])
+        }
+    }
+
+    serializedResourceItem.append( '_method', 'patch' );
+
+    axios.post('api/resource-items/' + props.editingItem.id , serializedResourceItem)
+        .then(response => {
+            console.log(response)
+        })
+        .catch(error => {
+            if (error.response?.data) {
+                validationErrors.value = error.response.data.errors
+            }
+        })
+        .finally(() => isLoading.value = false)
 }
 
 </script>

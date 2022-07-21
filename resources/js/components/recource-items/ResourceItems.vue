@@ -15,6 +15,7 @@
                         :editing-item="editingItem"
                         :resource-item-types="resourceItemsTypes"
                         @closeDialog="closeDialogAndClearEditItem()"
+                        @resourceCreated="handleCreate()"
                     />
                 </div>
                 <simple-filter
@@ -106,6 +107,11 @@ function openEditModal(item) {
 function closeDialogAndClearEditItem() {
     showDialog.value = false
     editingItem.value = null
+}
+
+function handleCreate() {
+    closeDialogAndClearEditItem()
+    getResourceItems()
 }
 
 onMounted(() => {

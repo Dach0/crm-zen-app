@@ -9,6 +9,7 @@ use App\Models\ResourceDetail;
 use App\Models\ResourceItem;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Response;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
@@ -48,7 +49,7 @@ class ResourceItemController extends Controller
         }
 
 
-        return [ 'data' => $item, 'message' => 'Successfully created resource'];
+        return response()->json(['success' => 'success'], Response::HTTP_CREATED);
     }
 
     public function update(StoreResourceItemRequest $request, ResourceItem $resourceItem)
