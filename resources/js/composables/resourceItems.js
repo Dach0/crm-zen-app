@@ -36,6 +36,32 @@ export default function useResourceItems() {
             .finally(() => isLoading.value = false)
     }
 
+    const updateResourceItem = async (resourceItem) => {
+        if (isLoading.value) return;
+
+        isLoading.value = true
+        validationErrors.value = {}
+
+        let serializedResourceItem = new FormData()
+
+        for (let field in resourceItem) {
+            if (resourceItem.hasOwnProperty(field)) {
+                serializedResourceItem.append(field, resourceItem[field])
+            }
+        }
+
+        serializedResourceItem.append( '_method', 'patch' );
+
+        axios.post('api/resource-items/' + resourceItem.id , serializedResourceItem)
+            .then(response => {})
+            .catch(error => {
+                if (error.response?.data) {
+                    validationErrors.value = error.response.data.errors
+                }
+            })
+            .finally(() => isLoading.value = false)
+    }
+
     const deleteResourceItem = async (id) => {
         if (confirm("Are you sure you want to delete a record?")) {
             axios.delete('/api/resource-items/' + id)
@@ -54,6 +80,7 @@ export default function useResourceItems() {
         resourceItems,
         getResourceItems,
         storeResourceItem,
+        updateResourceItem,
         validationErrors,
         isLoading,
         deleteResourceItem

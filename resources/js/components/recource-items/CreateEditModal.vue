@@ -14,7 +14,7 @@
                         <div>
                             <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                                 <div class="mt-2">
-                                    <form @submit.prevent="storeResourceItem(resourceItem)" class="space-y-8 divide-y divide-gray-200">
+                                    <form @submit.prevent="sendStoreOrUpdateRequest(resourceItem)" class="space-y-8 divide-y divide-gray-200">
                                         <div class="space-y-8 divide-y divide-gray-200 sm:space-y-5">
                                             <div>
                                                 <div>
@@ -190,7 +190,7 @@
 </template>
 
 <script setup>
-import {reactive, ref, watch} from 'vue'
+import {onMounted, reactive, ref, watch} from 'vue'
 import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import useResourceItems from "../../composables/resourceItems";
 
@@ -204,20 +204,44 @@ let resourceItem = reactive({
     open_in_new_tab: false
 })
 
-watch(() => resourceItem.resource_item_type_id, (curr, prev) => {
+watch(() => resourceItem.resource_item_type_id, (prev, curr) => {
+    if (!props.editingItem) {
+        resourceItem.id = ''
         resourceItem.title = ''
         resourceItem.pdf_file = ''
         resourceItem.description = ''
         resourceItem.html_snippet = ''
         resourceItem.link = ''
         resourceItem.open_in_new_tab = false
+    }
 }, { deep: true })
 
-const { storeResourceItem, validationErrors, isLoading } = useResourceItems()
+watch(() => props.open, (curr, prev) => {
+    if (curr && props.editingItem) {
+        resourceItem.id = props.editingItem?.id
+        resourceItem.title = props.editingItem?.title
+        resourceItem.pdf_file = props.editingItem?.pdf_file
+        resourceItem.description = props.editingItem?.description
+        resourceItem.html_snippet = props.editingItem?.html_snippet
+        resourceItem.resource_item_type_id = props.editingItem?.resource_item_type_id
+        resourceItem.link = props.editingItem?.link
+        resourceItem.open_in_new_tab = false
+    } else resourceItem.resource_item_type_id = ''
+}, { immediate: true })
+
+const {
+    storeResourceItem,
+    validationErrors,
+    isLoading,
+    updateResourceItem
+} = useResourceItems()
 const resourceType = ref('')
 
 const props = defineProps({
     open: Boolean,
+    editingItem: {
+        type: [Object, null]
+    },
     resourceItemTypes: Array
 })
 
@@ -226,6 +250,14 @@ function shouldShowForm(typeOfForm) {
     if(selected){
         return selected.type === typeOfForm
     }
+}
+
+function sendStoreOrUpdateRequest(item) {
+    if (props.editingItem) {
+        item.id = props.editingItem.id
+        console.log(item)
+        updateResourceItem(item)
+    } else storeResourceItem(item)
 }
 
 </script>

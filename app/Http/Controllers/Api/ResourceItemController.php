@@ -16,11 +16,12 @@ class ResourceItemController extends Controller
 {
     public function index(): Collection|AnonymousResourceCollection
     {
-        $resourceItems = ResourceItem::with('resourceType')
+        $resourceItems = ResourceItem::with('resourceType', 'resourceDetails')
             ->when(request('resourceTypeFilter'), function ($query) {
                 $query->where('resource_item_type_id', request('resourceTypeFilter'));
             })
             ->get();
+
         return ResourceItemResource::collection($resourceItems);
     }
 
@@ -48,6 +49,11 @@ class ResourceItemController extends Controller
 
 
         return [ 'data' => $item, 'message' => 'Successfully created resource'];
+    }
+
+    public function update(StoreResourceItemRequest $request, ResourceItem $resourceItem)
+    {
+        // TODO save here everything you need
     }
 
     public function destroy(ResourceItem $resourceItem)

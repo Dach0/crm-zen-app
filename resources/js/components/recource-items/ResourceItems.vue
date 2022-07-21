@@ -6,14 +6,15 @@
                     <button
                         type="button"
                         class="inline-flex items-center px-2.5 py-1.5 my-2 border border-transparent text-xs font-medium rounded text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                        @click="openCreateEditDialog=true"
+                        @click="openCreateModal"
                     >
                         Create resource
                     </button>
                     <create-edit-modal
-                        :open="openCreateEditDialog"
+                        :open="showDialog"
+                        :editing-item="editingItem"
                         :resource-item-types="resourceItemsTypes"
-                        @closeDialog="openCreateEditDialog=false"
+                        @closeDialog="closeDialogAndClearEditItem()"
                     />
                 </div>
                 <simple-filter
@@ -63,7 +64,7 @@
                                 {{ item.updated_at }}
                             </td>
                             <td class="pl-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                                <a href="#" class="text-indigo-600 hover:text-indigo-900" @click.prevent="openEditModal(item)">Edit</a>
                             </td>
                             <td class="pr-6 pl-2 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <a href="#" class="text-red-600 hover:text-red-900" @click.prevent="deleteResourceItem(item.id)">Del</a>
@@ -89,7 +90,23 @@ const selectedType = ref('')
 const {resourceItems, getResourceItems, deleteResourceItem} = useResourceItems()
 const {resourceItemsTypes, getResourceItemTypes} = useResourceItemTypes()
 
-const openCreateEditDialog = ref(false)
+let showDialog = ref(false)
+let editingItem = ref(null)
+
+function openCreateModal() {
+    showDialog.value = true
+    editingItem.value = null
+}
+
+function openEditModal(item) {
+    editingItem.value = {...item}
+    showDialog.value = true
+}
+
+function closeDialogAndClearEditItem() {
+    showDialog.value = false
+    editingItem.value = null
+}
 
 onMounted(() => {
     getResourceItems()
