@@ -18,7 +18,15 @@ export default function useResourceItems() {
         isLoading.value = true
         validationErrors.value = {}
 
-        axios.post('api/resource-items', resourceItem)
+        let serializedResourceItem = new FormData()
+
+        for (let field in resourceItem) {
+            if (resourceItem.hasOwnProperty(field)) {
+                serializedResourceItem.append(field, resourceItem[field])
+            }
+        }
+
+        axios.post('api/resource-items', serializedResourceItem)
             .then(response => {})
             .catch(error => {
                 if (error.response?.data) {
