@@ -36,6 +36,25 @@ export default function useResourceItems() {
             .finally(() => isLoading.value = false)
     }
 
+    const deleteResourceItem = async (id) => {
+        if (confirm("Are you sure you want to delete a record?")) {
+            axios.delete('/api/resource-items/' + id)
+                .then(response => {
+                    getResourceItems()
+                })
+                .catch(error => {
+                    alert('Something went wrong')
+                })
+        }
+    }
 
-    return { resourceItems, getResourceItems, storeResourceItem, validationErrors, isLoading }
+
+    return {
+        resourceItems,
+        getResourceItems,
+        storeResourceItem,
+        validationErrors,
+        isLoading,
+        deleteResourceItem
+    }
 }

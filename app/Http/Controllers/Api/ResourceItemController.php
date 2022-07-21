@@ -49,6 +49,13 @@ class ResourceItemController extends Controller
         return [ 'data' => $item, 'message' => 'Successfully created resource'];
     }
 
+    public function destroy(ResourceItem $resourceItem)
+    {
+        $resourceItem->delete();
+
+        return response()->noContent();
+    }
+
     private function uploadFile(UploadedFile $file, $path)
     {
         $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);

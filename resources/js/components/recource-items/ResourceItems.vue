@@ -62,11 +62,11 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 {{ item.updated_at }}
                             </td>
-                            <td class="px-6 pr-4 whitespace-nowrap text-right text-sm font-medium">
+                            <td class="pl-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
                             </td>
-                            <td class="px-6 pl-4 whitespace-nowrap text-right text-sm font-medium">
-                                <a href="#" class="text-red-600 hover:text-red-900">Delete</a>
+                            <td class="pr-6 pl-2 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                <a href="#" class="text-red-600 hover:text-red-900" @click.prevent="deleteResourceItem(item.id)">Del</a>
                             </td>
                         </tr>
                         </tbody>
@@ -86,7 +86,7 @@ import SimpleFilter from '../recource-items/SimpleFilter.vue'
 import CreateEditModal from "./CreateEditModal.vue";
 
 const selectedType = ref('')
-const {resourceItems, getResourceItems} = useResourceItems()
+const {resourceItems, getResourceItems, deleteResourceItem} = useResourceItems()
 const {resourceItemsTypes, getResourceItemTypes} = useResourceItemTypes()
 
 const openCreateEditDialog = ref(false)
