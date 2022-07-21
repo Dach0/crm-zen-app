@@ -15,7 +15,7 @@ pre {
     font-size:.9rem;
     padding:.15rem;
     background-color:#b8b8b8;
-    color:1e1e1e;
+    color:#1e1e1e;
     border:ridge 1px #7b7b7c;
     border-radius:5px;
     text-shadow:#c4c4c4 0 0 2px;
@@ -24,4 +24,8 @@ pre {
 button:hover{
     cursor:pointer;
     background-color: #f1f1f1;
+}
+
+.resource-max-width{
+    max-width: 51%;
 }

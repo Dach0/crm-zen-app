@@ -4,9 +4,9 @@
         <span class="mt-2 block text-3xl text-center leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">Super simple resource list</span>
     </h1>
 </div>
-<div class="mx-40 px-96 items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
+<div class="mx-40 items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
     @foreach($resourceItems as $item)
-        <div class="pt-4">
+        <div class="pt-4 mx-auto resource-max-width">
             <x-list-item :item="$item"/>
         </div>
     @endforeach
