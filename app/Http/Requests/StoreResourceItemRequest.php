@@ -31,7 +31,7 @@ class StoreResourceItemRequest extends FormRequest
 
         $selectedType = ResourceItemType::query()->find($this->resource_item_type_id);
 
-        if ($selectedType?->type === 'PDF') {
+        if ($selectedType?->type === 'PDF' && $this->hasFile('pdf_file')) {
             $rules['pdf_file'] = ['required','file','mimes:pdf','max:2048'];
         }
 
