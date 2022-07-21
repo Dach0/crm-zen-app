@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\ResourceItemType;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreResourceItemRequest extends FormRequest
@@ -23,9 +24,17 @@ class StoreResourceItemRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules = [
             'title' => 'required',
             'resource_item_type_id' => ['required','exists:resource_item_types,id']
         ];
+
+        $selectedType = ResourceItemType::query()->find($this->resource_item_type_id);
+
+        if ($selectedType?->type === 'PDF') {
+            $rules['pdf_file'] = 'required|file|mimes:pdf|max:2048';
+        }
+
+        return $rules;
     }
 }

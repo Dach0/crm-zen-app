@@ -84,6 +84,12 @@
                                                                     <p class="text-xs text-gray-500">PDF up to 2MB</p>
                                                                 </div>
                                                             </div>
+                                                            <div
+                                                                class="text-sm text-red-500 mt-1"
+                                                                v-for="message in validationErrors?.pdf_file"
+                                                            >
+                                                                {{ message }}
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <!-- ./ PDF form part-->
