@@ -10,6 +10,7 @@ use App\Models\ResourceItem;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 class ResourceItemController extends Controller
 {
@@ -51,7 +52,13 @@ class ResourceItemController extends Controller
 
     public function destroy(ResourceItem $resourceItem)
     {
-        $resourceItem->delete();
+        $itemDetail = $resourceItem->resourceDetails()->where('key','file_name')->first();
+
+        if ($itemDetail) {
+            Storage::disk('public')->delete('/pdf/' . $itemDetail->value);
+        }
+
+//        $resourceItem->delete();
 
         return response()->noContent();
     }
