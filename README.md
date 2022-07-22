@@ -38,6 +38,8 @@ Then run following comands
 
     ./vendor/bin/sail artisan migrate --seed
 
+    ./vendor/bin/sail artisan sotrage:link
+
     ./vendor/bin/sail npm install && npm run dev
 
 And voila! You should be able to access your app at http://crm-zen-app.localhost:8085/
